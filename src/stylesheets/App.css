@@ -1,0 +1,58 @@
+.App {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 100vh;
+}
+
+form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 400px;
+  border: 2px solid black;
+}
+
+form h2 {
+  text-align: center;
+  background-color: #0d5676;
+  color: white;
+  padding: 30px;
+  margin: 0 0 10px 0;
+}
+
+form fieldset {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: none;
+}
+
+form fieldset input:valid {
+  background-color: #b4ffb4;
+}
+
+#checkbox, #radio {
+  display: block;
+}
+
+.error {
+  border-left: 5px solid red;
+  background-color: #ff9393;
+  padding: 5px 15px;
+}
+/*# sourceMappingURL=App.css.map */
