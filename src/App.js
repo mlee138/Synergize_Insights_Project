@@ -84,7 +84,7 @@ class App extends React.Component {
       status.innerHTML = "The following questions were not answered:<br/><ul>" + errorStr + "</ul>";
       this.setState({ status: "error" });
       event.preventDefault();
-    } else { 
+    } else { //no errors found
       //reset error message
       status.innerHTML = '';
       this.setState({status: ''});
@@ -103,7 +103,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div>
-          <img src="./synergy_insights.png"/>
+          <img src="./synergy_insights.png" alt="synergize insights"/>
           <span>Synergize Insights</span>
         </div>
         <form>
@@ -162,25 +162,25 @@ class App extends React.Component {
             <br/>
             <label htmlFor="twitter">
               <input id="twitter" type="checkbox" name="option1" onChange={this.handleCheckbox}/>
-              <span class="custom-input"/>
+              <span className="custom-input"/>
               Twitter
             </label>
             <br/>
             <label htmlFor="blog">
               <input id="blog" type="checkbox" name="option2" onChange={this.handleCheckbox}/>
-              <span class="custom-input"/>
+              <span className="custom-input"/>
               Blog
             </label>
             <br/>
             <label htmlFor="linkedin">
               <input id="linkedin" type="checkbox" name="option3" onChange={this.handleCheckbox}/>
-              <span class="custom-input"/>
+              <span className="custom-input"/>
               LinkedIn
             </label>
             <br/>
             <label htmlFor="wordOfMouth">
               <input id="wordOfMouth" type="checkbox" name="option4" onChange={this.handleCheckbox}/>
-              <span class="custom-input"/>
+              <span className="custom-input"/>
               Word of Mouth
             </label>
           </fieldset>
