@@ -19,7 +19,7 @@
 
 .App > div {
   margin: 0;
-  position: absolute;
+  position: fixed;
   left: 30px;
   top: 25px;
   display: -webkit-box;
@@ -43,6 +43,7 @@
   color: white;
   text-transform: uppercase;
   letter-spacing: 2px;
+  cursor: default;
 }
 
 form {
