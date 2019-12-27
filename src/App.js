@@ -9,28 +9,26 @@ class App extends React.Component {
       email: '',
       zip: '',
       age: '',
-      checked: [],
+      checked: {
+        twitter: false,
+        blog: false,
+        linkedin: false,
+        wordOfMouth: false,
+      },
       radio: '',
+      status: '',
     };
 
     this.handleChange = this.handleChange.bind(this);
-    this.submitForm = this.submitForm.bind(this);
+    this.handleCheckbox = this.handleCheckbox.bind(this);
+    this.handleRadio = this.handleRadio.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount = () =>{
     var myForm = document.getElementsByTagName("form")[0];
     //add submit event listener to form
-    myForm.addEventListener("submit", function(evt) {
-      if(myForm.checkValidity() === false){
-        evt.preventDefault();
-        alert("Form is invalid");
-        return false;
-      } else {
-        evt.preventDefault();
-        alert("Form is valid");
-        return false;
-      }
-    });
+    myForm.addEventListener("submit", this.handleSubmit);
   }
 
   handleChange = (event) => {
@@ -40,68 +38,83 @@ class App extends React.Component {
      this.setState({ [name]: value});
   }
 
-  submitForm = (event) => {
+  handleCheckbox = (event) => {
+    var checked = this.state.checked;
+    var id = event.target.id;
+    checked[id] = !checked[id];
+    console.log(checked);
+  }
+
+  handleRadio = (event) => {
+    this.setState({ radio: event.target.id });
+  }
+
+  handleSubmit = (event) => {
+    
     var errors = [];
-    // check if empty: name, email, zip, age
+    
+    // check if any questions are empty
     if(!this.state.name){ errors.push("name");}
     if(!this.state.email){ errors.push("email");}
     if(!this.state.zip){ errors.push("zip");}
     if(!this.state.age){ errors.push("age");}
 
-    //at least one Checkbox is filled
-    var checkboxQuestion = document.getElementById("checkbox");
-    var checkboxes = checkboxQuestion.getElementsByTagName('input');
-    var checkboxFilled = false;
-    for(let i=0; i < checkboxes.length; i++){
-      if(checkboxes[i].checked){ 
-        checkboxFilled = true; 
-        this.setState({ checked: [...this.state.checked, checkboxes[i].id]});
-        break; 
+    var noneChecked = true;
+    var entries = Object.entries(this.state.checked);
+    var checked = [];
+    for(const [key, value] of entries){
+      if(value){ 
+        noneChecked = false;
+        checked.push(key);
       }
     }
-    
-    //check one radio is checked
-    var radioQuestion = document.getElementById("radio");
-    var radios = radioQuestion.getElementsByTagName("input");
-    var radioChecked = false;
-    for (let i=0; i < radios.length; i++){
-      if(radios[i].checked){ 
-        radioChecked = true;
-        this.setState({ radio: radios[i].id });
-        break;
-      }
-    }
+    if(noneChecked){ errors.push("How did you hear about us?"); }
+    if(!this.state.radio){ errors.push("Who is your favorite employee?"); }
 
-    //checkbox and or radio was not filled
-    if(!checkboxFilled){ 
-      errors.push("How did you hear about us?"); 
-    }
-    if(!radioChecked){ 
-      errors.push("Who is your favorite employee?"); 
-    }
-
+    //check if any errors found
+    var status = document.getElementById("message");
     if(errors.length > 0){
-      //at least one error found
-      var errorStr = errors.toString().replace(/,/g, "\n");
-      alert("The following areas haven't been filled out: \n" + errorStr);
-      var status = document.getElementById("status");
-      status.innerHTML = errorStr;
-
+      //create list of errors
+      var errorList = [];
+      errors.forEach(function(error){
+        error = "<li>" + error + "</li>"
+        errorList.push(error);
+      });
+      var errorStr = errorList.toString().replace(/,/g, "");
+      status.innerHTML = "The following questions were not answered:<br/><ul>" + errorStr + "</ul>";
+      this.setState({ status: "error" });
       event.preventDefault();
+    } else { 
+      //reset error message
+      status.innerHTML = '';
+      this.setState({status: ''});
+
+      //output results
+      alert("--Submission--\nname: " + this.state.name 
+            + "\nemail: " + this.state.email 
+            + "\nzip: " + this.state.zip
+            + "\nage: " + this.state.age
+            + "\nexposure: " + checked
+            + "\nfavorite employee: " + this.state.radio);
     }
   }
 
   render(){
     return (
       <div className="App">
+        <div>
+          <img src="./synergy_insights.png"/>
+          <span>Synergize Insights</span>
+        </div>
         <form>
-          <h2>Sign up today!</h2>
+          <h1>Sign up today!</h1>
           <fieldset>
             <label htmlFor="name">Name</label>
             <input 
               type="name"
               id="name"
-              placeholder="Ex: Matt Lee"
+              className="fill-width"
+              placeholder="John Smith"
               onChange={this.handleChange} 
               required/>
           </fieldset>
@@ -111,6 +124,7 @@ class App extends React.Component {
             <input 
               type="email" 
               id="email"
+              className="fill-width"
               placeholder="email@example.com"
               onChange={this.handleChange}
               required/>
@@ -121,6 +135,7 @@ class App extends React.Component {
             <input 
               type="text" 
               id="zip"
+              className="fill-width"
               placeholder="Ex: 12345"
               pattern="^\d{5}(?:[-\s]\d{4})?$"  
               onChange={this.handleChange}
@@ -143,32 +158,58 @@ class App extends React.Component {
           </fieldset>
 
           <fieldset id="checkbox">
-            <span>How did you hear about us?</span>
+            <p>How did you hear about us?</p>
             <br/>
-            <input id="twitter" type="checkbox" name="option1"/>
-            <label htmlFor="twitter">Twitter</label>
+            <label htmlFor="twitter">
+              <input id="twitter" type="checkbox" name="option1" onChange={this.handleCheckbox}/>
+              <span class="custom-input"/>
+              Twitter
+            </label>
             <br/>
-            <input id="blog" type="checkbox" name="option2"/>
-            <label htmlFor="blog">Blog</label>
+            <label htmlFor="blog">
+              <input id="blog" type="checkbox" name="option2" onChange={this.handleCheckbox}/>
+              <span class="custom-input"/>
+              Blog
+            </label>
             <br/>
-            <input id="linkedin" type="checkbox" name="option3"/>
-            <label htmlFor="linkedin">LinkedIn</label>
+            <label htmlFor="linkedin">
+              <input id="linkedin" type="checkbox" name="option3" onChange={this.handleCheckbox}/>
+              <span class="custom-input"/>
+              LinkedIn
+            </label>
             <br/>
-            <input id="wordOfMouth" type="checkbox" name="option4"/>
-            <label htmlFor="wordOfMouth">Word of Mouth</label>
+            <label htmlFor="wordOfMouth">
+              <input id="wordOfMouth" type="checkbox" name="option4" onChange={this.handleCheckbox}/>
+              <span class="custom-input"/>
+              Word of Mouth
+            </label>
           </fieldset>
 
           <fieldset id="radio">
-            <span>Who is your favorite employee?</span>
+            <p>Who is your favorite employee?</p>
             <br/>
-            <input id="tiasia" type="radio" name="favorite"/>
-            <label htmlFor="tiasia">Tiasia</label>
+            <label htmlFor="tiasia">
+              <input 
+                id="tiasia" 
+                type="radio" 
+                name="favorite"
+                onChange={this.handleRadio}/>
+              <span className="custom-input"/>
+              Tiasia
+            </label>
             <br/>
-            <input id="jerry" type="radio" name="favorite"/>
-            <label htmlFor="jerry">Jerry</label>
+            <label htmlFor="jerry">
+              <input 
+                id="jerry" 
+                type="radio" 
+                name="favorite"
+                onChange={this.handleRadio}/>
+              <span className="custom-input"/>
+              Jerry
+            </label>
           </fieldset>
-          <input type="submit" onClick={this.submitForm}/>
-          <p id="status"></p>
+          <span id="message" className={this.state.status}></span>
+          <input type="submit"/>
         </form>
       </div>
     );

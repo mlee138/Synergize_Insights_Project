@@ -5,5 +5,14 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+
+    background-image: url(../manhattan.jpg);
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+@media screen and (max-width: 1350px){
+  body { background-size: auto 100%; }
+}
   
