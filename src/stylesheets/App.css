@@ -98,11 +98,15 @@ form fieldset input {
 }
 
 form fieldset input:valid {
-  background-color: #b4ffb4;
+  background-color: #c7ffc7;
 }
 
 form fieldset select {
   padding: 5px;
+}
+
+form .fill-width {
+  width: 95%;
 }
 
 form input[type=submit] {
@@ -213,10 +217,6 @@ form input[type=submit] {
   padding: 10px 5px 0px 20px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-}
-
-.fill-width {
-  width: 95%;
 }
 
 @media screen and (max-width: 1000px) {

@@ -58,12 +58,15 @@ form {
             border-radius: 4px;
             padding: 8px;
             &:valid {
-                background-color: rgb(180, 255, 180);
+                background-color: rgb(199, 255, 199);
             }
         }
         select {
             padding: 5px;
         }
+    }
+    .fill-width {
+        width: 95%;
     }
     input[type=submit]{
         background-color: #010080;
@@ -164,10 +167,6 @@ $transition-time: 0.2s;
     margin: 10px 0;
     padding: 10px 5px 0px 20px;
     box-sizing: border-box;
-}
-
-.fill-width {
-    width: 95%;
 }
 
 @media screen and (max-width: 1000px){
